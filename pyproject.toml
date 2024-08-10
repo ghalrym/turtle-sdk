@@ -10,8 +10,9 @@ maintainers = [
 ]
 readme = {file = "README.md", content-type = "text/markdown"}
 dependencies=[
-    "bale_of_turtles @ https://github.com/ghalrym/bale-of-turtles@head",
-    "mini_tortoise_audio @ git+https://github.com/ghalrym/mini-tortoise-audio@head",
+    "bale_of_turtles @ https://github.com/ghalrym/bale-of-turtles@f4d316841373ccc1b63773dc22783fb181981344",
+    "mini_tortoise_audio @ git+https://github.com/ghalrym/mini-tortoise-audio@7f4d43440ed6365453b9f6c41752b821496f3608",
+    "mini_tortoise_tts @ git+https://github.com/ghalrym/mini-tortoise-tts@4ad84a2e0dd94be936f9ebb322b1361f439c108c",
     "pydub",
 ]
 
