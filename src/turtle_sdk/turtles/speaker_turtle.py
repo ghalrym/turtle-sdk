@@ -1,9 +1,11 @@
+import numpy
+
 from io import BytesIO
 
-import numpy
 from bale_of_turtles import ActionTurtle, use_state
 from mini_tortoise_audio import Audio, VbCableAudio, VbCableIn, VbCableOut
 from pydub import AudioSegment
+from typing import Callable
 
 
 def _detect_silence(audio_chunk, threshold):
