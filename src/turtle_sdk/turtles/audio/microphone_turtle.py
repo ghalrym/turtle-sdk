@@ -5,7 +5,7 @@ from bale_of_turtles import ActionTurtle
 from mini_tortoise_audio import Audio, VbCableAudio, VbCableIn
 from pydub import AudioSegment
 
-from turtle_sdk.turtles.speaker_turtle import _detect_silence
+from turtle_sdk.turtles.audio.speaker_turtle import _detect_silence
 
 
 class MicrophoneTurtle(ActionTurtle):
