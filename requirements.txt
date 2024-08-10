@@ -1,3 +1,4 @@
 bale_of_turtles @ git+https://github.com/ghalrym/bale-of-turtles@head
 mini_tortoise_audio @ git+https://github.com/ghalrym/mini-tortoise-audio@head
+mini_tortoise_tts @ git+https://github.com/ghalrym/mini-tortoise-tts@head
 pydub
