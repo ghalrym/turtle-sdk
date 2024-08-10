@@ -17,7 +17,7 @@ class MicrophoneTurtle(ActionTurtle):
         "_frames_per_buffer",
     )
 
-    def __init__(self, device: VbCableIn | str, pitch_audio: int | False = False):
+    def __init__(self, device: VbCableIn | str, pitch_audio: int | bool = False):
         super().__init__()
         if isinstance(device, str):
             self._audio = Audio(device, is_input=True)
