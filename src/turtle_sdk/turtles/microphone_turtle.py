@@ -29,7 +29,7 @@ class MicrophoneTurtle(ActionTurtle):
         self._pitch_audio = pitch_audio
 
     def register(self, state):
-        super().register(state)
+        super(ActionTurtle, self).register(state)
         self._stream = self._audio.open()
 
     def wait_for_input(self, frames: list[bytes]) -> list[bytes]:

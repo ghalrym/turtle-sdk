@@ -35,7 +35,7 @@ class SpeakerTurtle(ActionTurtle):
         self.should_interrupt = should_interrupt
 
     def register(self, state):
-        super().register(state)
+        super(ActionTurtle, self).register(state)
         self._stream = self._audio.open()
 
     @use_state("turtle-audio-out", ["audio_out_byte"])
