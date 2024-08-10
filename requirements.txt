@@ -3,3 +3,4 @@ mini_tortoise_audio @ git+https://github.com/ghalrym/mini-tortoise-audio@main
 mini_tortoise_tts @ git+https://github.com/ghalrym/mini-tortoise-tts@main
 pydub
 numpy
+torchaudio
