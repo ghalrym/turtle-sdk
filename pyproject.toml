@@ -1,0 +1,25 @@
+[project]
+name="turtle-sdk"
+version="1.0"
+requires-python = ">=3.8"
+authors = [
+    {name="Andrew Reed", email="andrewreed2017@icloud.com"}
+]
+maintainers = [
+    {name="Andrew Reed", email="andrewreed2017@icloud.com"}
+]
+readme = {file = "README.md", content-type = "text/markdown"}
+dependencies=[
+    "bale_of_turtles @ https://github.com/ghalrym/bale-of-turtles@head",
+    "mini_tortoise_audio @ git+https://github.com/ghalrym/mini-tortoise-audio@head",
+    "pydub",
+]
+
+[project.optional-dependencies]
+testing = ["pytest", "black"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"*" = ["*.*"]
