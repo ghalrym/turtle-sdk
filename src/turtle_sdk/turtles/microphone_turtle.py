@@ -1,15 +1,21 @@
 import wave
 from io import BytesIO
 
-from mini_tortoise_audio import VbCableIn, Audio, VbCableAudio
 from bale_of_turtles import ActionTurtle
+from mini_tortoise_audio import Audio, VbCableAudio, VbCableIn
 from pydub import AudioSegment
 
 from turtle_sdk.turtles.speaker_turtle import _detect_silence
 
 
 class MicrophoneTurtle(ActionTurtle):
-    __slots__ = ("_stream", "_audio", "_threshold", "_pitch_audio", "_frames_per_buffer")
+    __slots__ = (
+        "_stream",
+        "_audio",
+        "_threshold",
+        "_pitch_audio",
+        "_frames_per_buffer",
+    )
 
     def __init__(self, device: VbCableIn | str, pitch_audio: int | False = False):
         super().__init__()
@@ -81,7 +87,7 @@ class MicrophoneTurtle(ActionTurtle):
         audio_segment = AudioSegment.from_file(audio_bytes_io, format="wav")
 
         # Change the pitch by altering the playback speed
-        new_sample_rate = int(audio_segment.frame_rate * (2.0 ** octaves))
+        new_sample_rate = int(audio_segment.frame_rate * (2.0**octaves))
 
         # Create a new audio segment with the new sample rate
         # noinspection PyProtectedMember

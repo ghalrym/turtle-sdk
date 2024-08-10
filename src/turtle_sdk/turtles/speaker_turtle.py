@@ -1,10 +1,9 @@
-import numpy
 from io import BytesIO
 
-from pydub import AudioSegment
+import numpy
 from bale_of_turtles import ActionTurtle, use_state
-
-from mini_tortoise_audio import VbCableAudio, VbCableIn, VbCableOut, Audio
+from mini_tortoise_audio import Audio, VbCableAudio, VbCableIn, VbCableOut
+from pydub import AudioSegment
 
 
 def _detect_silence(audio_chunk, threshold):
@@ -22,7 +21,7 @@ class SpeakerTurtle(ActionTurtle):
     def __init__(
         self,
         device: VbCableIn | VbCableOut | str,
-        should_interrupt: Callable[[], bool] | None = None
+        should_interrupt: Callable[[], bool] | None = None,
     ):
         super().__init__()
         if isinstance(device, str):
@@ -46,7 +45,7 @@ class SpeakerTurtle(ActionTurtle):
             if self._interrupt_playback:
                 break
             # noinspection PyProtectedMember
-            chunk = audio_segment[i: i + chunk_size]._data
+            chunk = audio_segment[i : i + chunk_size]._data
             self._stream.write(chunk)
 
     def invoke(self):
