@@ -4,6 +4,15 @@ import uuid
 from bale_of_turtles import use_state, TurtleTool
 
 
+class ChromaDbTurtle(TurtleTool):
+
+    def add_document(self, **kwargs):
+        raise NotImplementedError()
+
+    def query_documents(self, **kwargs):
+        raise NotImplementedError()
+
+
 class ChromaDbTurtleMaker:
 
     def __init__(self, host: str, port: int, collection: str):
@@ -21,11 +30,11 @@ class ChromaDbTurtleMaker:
         return_query_key: str,
         save_statement_key: str,
         number_of_expected_results: int = 5,
-    ) -> TurtleTool:
+    ) -> ChromaDbTurtle:
         search_fn_key = str(uuid.uuid5(uuid.NAMESPACE_DNS, search_query_key))
         save_fn_key = str(uuid.uuid5(uuid.NAMESPACE_DNS, save_statement_key))
 
-        class QueryTurtleTool(TurtleTool):
+        class QueryTurtleTool(ChromaDbTurtle):
             def __init__(
                 self,
                 client: chromadb.HttpClient,
