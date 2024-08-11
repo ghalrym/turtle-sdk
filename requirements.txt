@@ -4,3 +4,5 @@ mini_tortoise_tts @ git+https://github.com/ghalrym/mini-tortoise-tts@main
 pydub
 numpy
 torchaudio
+sqlalchemy
+chromadb
