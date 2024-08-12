@@ -20,6 +20,7 @@ class ChatTurtleMaker(TurtleToolMaker):
         ai_message_key: str,
         system_message_key: str,
         chat_history_key: str,
+        **kwargs,
     ) -> ChatTurtle:
 
         class _ChatTurtle(ChatTurtle):

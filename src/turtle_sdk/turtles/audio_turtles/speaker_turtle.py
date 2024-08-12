@@ -59,7 +59,7 @@ class SpeakerTurtleMaker(TurtleToolMaker):
         self._device = device
         self._should_interrupt = should_interrupt
 
-    def make(self, audio_bytes_key: str) -> SpeakerTurtle:
+    def make(self, audio_bytes_key: str, **kwargs) -> SpeakerTurtle:
 
         class _SpeakerTurtle(SpeakerTurtle):
             @use_state(self._make_fn_key("audio-speaker"), [audio_bytes_key])

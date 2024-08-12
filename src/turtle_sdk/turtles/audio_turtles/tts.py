@@ -22,8 +22,8 @@ class MiniTortoiseTtsTurtleMaker(TurtleToolMaker):
     def __init__(self, voice: str):
         self._voice = voice
 
-    def make_tts(
-        self, text_to_say_key: str, response_key: str
+    def make(
+        self, text_to_say_key: str, response_key: str, **kwargs
     ) -> MiniTortoiseTtsTurtle:
 
         class _TtsTurtle(MiniTortoiseTtsTurtle):

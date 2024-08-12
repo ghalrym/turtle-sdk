@@ -20,11 +20,12 @@ class ChatLlamaTurtleMaker(TurtleToolMaker):
         super(TurtleToolMaker, self).__init__()
         self._model = ChatOllama(model=model_name)
 
-    def make_chat_llama(
+    def make(
         self,
         trigger_response_key: str,
         message_history_key: str,
         response_key: str,
+        **kwargs,
     ) -> ChatLlamaTurtle:
 
         class _LlamaTurtle(ChatLlamaTurtle):

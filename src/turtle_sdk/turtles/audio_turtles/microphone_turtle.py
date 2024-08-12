@@ -118,5 +118,5 @@ class MicrophoneTurtleMaker(TurtleToolMaker):
         self._device = device
         self._pitch_audio = pitch_audio
 
-    def make_microphone(self, **kwargs) -> MicrophoneTurtle:
+    def make(self, **kwargs) -> MicrophoneTurtle:
         return MicrophoneTurtle(self._device, self._pitch_audio)

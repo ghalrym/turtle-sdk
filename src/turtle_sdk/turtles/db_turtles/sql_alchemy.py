@@ -21,13 +21,14 @@ class SqlAlchemyTurtleMaker(TurtleToolMaker):
     def __init__(self, url: str):
         self.engine = create_engine(url)
 
-    def make_query_tool(
+    def make(
         self,
         model: DeclarativeBase,
         search_query_key: str,
         return_query_key: str,
         save_statement_key: str,
         select_statement: Query,
+        **kwargs,
     ) -> SqlAlchemyTurtle:
         search_fn_key = str(uuid.uuid5(uuid.NAMESPACE_DNS, search_query_key))
         save_fn_key = str(uuid.uuid5(uuid.NAMESPACE_DNS, save_statement_key))

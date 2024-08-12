@@ -25,12 +25,13 @@ class ChromaDbTurtleMaker(TurtleToolMaker):
         )
         self.collection = collection
 
-    def make_query_tool(
+    def make(
         self,
         search_query_key: str,
         return_query_key: str,
         save_statement_key: str,
         number_of_expected_results: int = 5,
+        **kwargs,
     ) -> ChromaDbTurtle:
 
         class QueryTurtleTool(ChromaDbTurtle):
