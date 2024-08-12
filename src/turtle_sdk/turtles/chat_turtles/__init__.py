@@ -1,1 +1,1 @@
-from .chat_turtle import ChatTurtle
+from .chat_turtle import ChatTurtle, ChatTurtleMaker

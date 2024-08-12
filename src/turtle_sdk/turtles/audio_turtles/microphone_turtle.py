@@ -1,11 +1,13 @@
 import wave
 from io import BytesIO
 
-from bale_of_turtles import ActionTurtle
+from bale_of_turtles import ActionTurtle, TurtleTool
 from mini_tortoise_audio import Audio, VbCableAudio, VbCableIn
 from pydub import AudioSegment
 
-from turtle_sdk.turtles.audio.speaker_turtle import _detect_silence
+from turtle_sdk.turtles.audio_turtles.speaker_turtle import _detect_silence
+
+from turtle_sdk.turtles.turtle_tool_maker import TurtleToolMaker
 
 
 class MicrophoneTurtle(ActionTurtle):
@@ -19,10 +21,11 @@ class MicrophoneTurtle(ActionTurtle):
 
     def __init__(self, device: VbCableIn | str, pitch_audio: int | bool = False):
         super().__init__()
-        if isinstance(device, str):
-            self._audio = Audio(device, is_input=True)
-        else:
-            self._audio = VbCableAudio(device)
+        self._audio = (
+            VbCableAudio(device)
+            if device.startswith("CABLE")
+            else Audio(device, is_input=True)
+        )
         self._stream = None
         self._threshold = 500
         self._frames_per_buffer = 1024
@@ -57,7 +60,7 @@ class MicrophoneTurtle(ActionTurtle):
 
             if silent_chunks > silence_chunks_threshold:
                 break
-        return frames
+        return frames[:-2]  # Remove last 2 frames of silence
 
     def get_audio_data(self, frames: list[bytes]) -> BytesIO:
         # Save the recording to a BytesIO object
@@ -78,7 +81,7 @@ class MicrophoneTurtle(ActionTurtle):
             frames = self.record_until_silence(frames)
             audio = self.get_audio_data(frames)
             if self._pitch_audio:
-                audio = self._pitch_audio(audio, self._pitch_audio)
+                audio = self.change_pitch(audio, self._pitch_audio)
             self.update_state(audio_in_bytes=audio)
 
     @staticmethod
@@ -106,3 +109,14 @@ class MicrophoneTurtle(ActionTurtle):
         output_audio_io.seek(0)
 
         return output_audio_io
+
+
+class MicrophoneTurtleMaker(TurtleToolMaker):
+    __slots__ = ("_device", "_pitch_audio")
+
+    def __init__(self, device: VbCableIn | str, pitch_audio: int | bool = False):
+        self._device = device
+        self._pitch_audio = pitch_audio
+
+    def make_microphone(self, **kwargs) -> MicrophoneTurtle:
+        return MicrophoneTurtle(self._device, self._pitch_audio)

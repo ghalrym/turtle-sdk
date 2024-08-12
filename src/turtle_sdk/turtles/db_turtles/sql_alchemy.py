@@ -4,6 +4,8 @@ from bale_of_turtles import use_state, TurtleTool
 from sqlalchemy import create_engine
 from sqlalchemy.orm import DeclarativeBase, Query
 
+from turtle_sdk.turtles.turtle_tool_maker import TurtleToolMaker
+
 
 class SqlAlchemyTurtle(TurtleTool):
 
@@ -14,10 +16,9 @@ class SqlAlchemyTurtle(TurtleTool):
         raise NotImplementedError
 
 
-class SqlAlchemyTurtleMaker:
+class SqlAlchemyTurtleMaker(TurtleToolMaker):
 
     def __init__(self, url: str):
-        super().__init__()
         self.engine = create_engine(url)
 
     def make_query_tool(
