@@ -20,14 +20,9 @@ class ChatTurtleMaker(TurtleToolMaker):
         ai_message_key: str,
         system_message_key: str,
         chat_history_key: str,
-        trigger_chat_update: str,
     ) -> ChatTurtle:
 
         class _ChatTurtle(ChatTurtle):
-
-            @use_trigger(trigger_chat_update)
-            def update_chat_state(self, **kwargs):
-                self.update_state(**{chat_history_key: self.chat_state})
 
             @use_state(self._make_fn_key("chat-system-message"), [system_message_key])
             def system_message_input(self, **kwargs):
@@ -40,7 +35,9 @@ class ChatTurtleMaker(TurtleToolMaker):
                     raise Exception(
                         "Invalid system message type, {}".format(type(system_message))
                     )
+                self.update_state(**{chat_history_key: self.chat_state})
 
+            # noinspection DuplicatedCode
             @use_state(self._make_fn_key("chat-user-message"), [human_message_key])
             def user_message_input(self, **kwargs):
                 human_message = kwargs.get(human_message_key, None)
@@ -52,7 +49,9 @@ class ChatTurtleMaker(TurtleToolMaker):
                     raise Exception(
                         "Invalid system message type, {}".format(type(human_message))
                     )
+                self.update_state(**{chat_history_key: self.chat_state})
 
+            # noinspection DuplicatedCode
             @use_state(self._make_fn_key("ai-message"), [ai_message_key])
             def ai_message_input(self, **kwargs):
                 ai_message = kwargs.get(human_message_key, None)
@@ -64,5 +63,6 @@ class ChatTurtleMaker(TurtleToolMaker):
                     raise Exception(
                         "Invalid system message type, {}".format(type(ai_message))
                     )
+                self.update_state(**{chat_history_key: self.chat_state})
 
         return _ChatTurtle()
