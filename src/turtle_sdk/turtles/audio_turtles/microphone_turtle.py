@@ -1,12 +1,11 @@
 import wave
 from io import BytesIO
 
-from bale_of_turtles import ActionTurtle, TurtleTool
+from bale_of_turtles import ActionTurtle
 from mini_tortoise_audio import Audio, VbCableAudio, VbCableIn
 from pydub import AudioSegment
 
 from turtle_sdk.turtles.audio_turtles.speaker_turtle import _detect_silence
-
 from turtle_sdk.turtles.turtle_tool_maker import TurtleToolMaker
 
 

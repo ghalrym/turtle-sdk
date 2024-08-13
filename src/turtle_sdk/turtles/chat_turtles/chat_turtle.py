@@ -1,7 +1,6 @@
-from langchain_core.messages import BaseMessage, SystemMessage, HumanMessage
-
-from bale_of_turtles import use_state, use_trigger
+from bale_of_turtles import use_state
 from bale_of_turtles.tool_turtle import TurtleTool
+from langchain_core.messages import BaseMessage, SystemMessage, HumanMessage
 
 from turtle_sdk.turtles.turtle_tool_maker import TurtleToolMaker
 

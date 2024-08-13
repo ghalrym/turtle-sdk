@@ -1,11 +1,9 @@
+from typing import Callable
+
 import numpy
-
-from io import BytesIO
-
 from bale_of_turtles import ActionTurtle, use_state
 from mini_tortoise_audio import Audio, VbCableAudio, VbCableIn, VbCableOut
 from pydub import AudioSegment
-from typing import Callable
 
 from turtle_sdk.turtles.turtle_tool_maker import TurtleToolMaker
 

@@ -1,8 +1,7 @@
 import logging
 
-from bale_of_turtles import use_state, use_trigger
+from bale_of_turtles import use_trigger
 from langchain_community.chat_models import ChatOllama
-from langchain_core.messages import BaseMessage
 
 from .llm_turtle import LlmTurtle
 from ..turtle_tool_maker import TurtleToolMaker
