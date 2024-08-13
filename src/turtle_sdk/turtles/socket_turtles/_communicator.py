@@ -55,7 +55,7 @@ class ServerSocketTurtleTool(_ComunicatorMixins, ActionTurtle):
         ActionTurtle.__init__(self)
         self.client_connection = None
 
-    def run_server(self, _socket: socket, conn: socket): ...
+    def handle_connection(self, _socket: socket): ...
 
     def invoke(self, **invoke_kwargs):
         while True:
@@ -64,4 +64,4 @@ class ServerSocketTurtleTool(_ComunicatorMixins, ActionTurtle):
                 s.listen()
                 self.client_connection, addr = s.accept()
                 logger.info("connection from", addr)
-                self.run_server(s)
+                self.handle_connection(s)

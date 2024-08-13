@@ -28,7 +28,7 @@ class ServerSocketTurtleMaker(TurtleToolMaker):
                 super().__init__(address, port)
                 self.currently_responding = False
 
-            def connection(self, _socket: socket):
+            def handle_connection(self, _socket: socket):
                 try:
                     while True:
                         self.currently_responding = True
