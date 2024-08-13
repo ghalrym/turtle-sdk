@@ -7,10 +7,16 @@ from .audio_turtles import (
     MiniTortoiseTtsTurtle,
 )
 from .chat_turtles import ChatTurtleMaker, ChatTurtle
-from .llm_turtles import ChatLlamaTurtleMaker, ChatLlamaTurtle
 from .db_turtles import (
     ChromaDbTurtleMaker,
     ChromaDbTurtle,
     SqlAlchemyTurtleMaker,
     SqlAlchemyTurtle,
+)
+from .llm_turtles import ChatLlamaTurtleMaker, ChatLlamaTurtle
+from .socket_turtles import (
+    ServerSocketTurtleMaker,
+    ServerSocketTurtleTool,
+    ClientSocketTurtleMaker,
+    ClientSocketTurtleTool,
 )
