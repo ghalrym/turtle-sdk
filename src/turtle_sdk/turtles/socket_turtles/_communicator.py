@@ -60,8 +60,9 @@ class ServerSocketTurtleTool(_ComunicatorMixins, ActionTurtle):
     def invoke(self, **invoke_kwargs):
         while True:
             with socket(AF_INET, SOCK_STREAM) as s:
+                logger.info("Listening for connections")
                 s.bind((self._address, self._port))
                 s.listen()
                 self.client_connection, addr = s.accept()
-                logger.info("connection from", addr)
+                logger.info("Connection from {}".format(addr))
                 self.handle_connection(s)
