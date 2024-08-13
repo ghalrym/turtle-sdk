@@ -34,7 +34,7 @@ class ClientSocketTurtleMaker(TurtleToolMaker):
                     raise ValueError("Message is missing {}".format(message_key))
 
                 self.send_data(bytes_message)  # Send message
-                response = self.recieve_data().decode()  # Get Response
+                response = self.recieve_data()  # Get Response
                 self.update_state(**{response_key: response})  # Update State
 
         return _SocketTurtleTool(self._address, self._port)
