@@ -27,6 +27,6 @@ class ChatLlmTurtle(TurtleTool):
         message_history = kwargs.get(self.message_history_key, [])
         if not message_history:
             raise Exception("Message history is empty")
-
         response = self.model.invoke(message_history)
+
         self.update_state(**{self.response_key: response.content})

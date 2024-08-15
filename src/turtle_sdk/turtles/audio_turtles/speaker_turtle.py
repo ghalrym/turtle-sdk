@@ -5,7 +5,7 @@ from bale_of_turtles import ActionTurtle, use_state
 from mini_tortoise_audio import Audio, VbCableAudio, VbCableIn, VbCableOut
 from pydub import AudioSegment
 
-from turtle_sdk.turtles.turtle_tool_maker import TurtleToolMaker
+from turtle_sdk.turtles.turtle_tool_maker import make_fn_key
 
 
 def _detect_silence(audio_chunk: bytes, threshold: float):
@@ -18,21 +18,34 @@ def _detect_silence(audio_chunk: bytes, threshold: float):
 
 
 class SpeakerTurtle(ActionTurtle):
-    __slots__ = ("_stream", "_audio", "_interrupt_playback", "should_interrupt")
+    __slots__ = (
+        "_stream",
+        "_audio",
+        "_interrupt_playback",
+        "should_interrupt",
+        "audio_bytes_key",
+        "turtle_out",
+    )
 
     def __init__(
         self,
         device: VbCableIn | VbCableOut | str,
+        audio_bytes_key: str,
         should_interrupt: Callable[[], bool] | None = None,
     ):
         super().__init__()
-        if isinstance(device, str):
-            self._audio = Audio(device, is_input=False)
-        else:
-            self._audio = VbCableAudio(device)
+        self._audio = (
+            Audio(device, is_input=False)
+            if isinstance(device, str)
+            else VbCableAudio(device)
+        )
         self._stream = None
         self._interrupt_playback = False
         self.should_interrupt = should_interrupt
+        self.audio_bytes_key = audio_bytes_key
+        self.turtle_out = use_state(make_fn_key("audio-speaker"), [audio_bytes_key])(
+            self._turtle_out
+        )
 
     def register(self, state):
         super(ActionTurtle, self).register(state)
@@ -42,37 +55,16 @@ class SpeakerTurtle(ActionTurtle):
         while self.should_interrupt:
             self._interrupt_playback = self.should_interrupt()
 
-    def turtle_out(self, *args, **kwargs):
-        raise NotImplementedError()
+    def _turtle_out(self, **kwargs) -> None:
+        if (audio_bytes_out := kwargs.get(self.audio_bytes_key, None)) is None:
+            return
 
+        audio_segment = AudioSegment.from_file(audio_bytes_out, format="wav")
+        chunk_size = 1024
+        for i in range(0, len(audio_segment), chunk_size):
+            if self._interrupt_playback:
+                break
 
-class SpeakerTurtleMaker(TurtleToolMaker):
-    __slots__ = ("_device", "_should_interrupt")
-
-    def __init__(
-        self,
-        device: VbCableIn | str,
-        should_interrupt: Callable[[], bool] | None = None,
-    ):
-        self._device = device
-        self._should_interrupt = should_interrupt
-
-    def make(self, audio_bytes_key: str, **kwargs) -> SpeakerTurtle:
-
-        class _SpeakerTurtle(SpeakerTurtle):
-            @use_state(self._make_fn_key("audio-speaker"), [audio_bytes_key])
-            def turtle_out(self, **kwargs) -> None:
-                if (audio_bytes_out := kwargs.get(audio_bytes_key, None)) is None:
-                    return
-
-                audio_segment = AudioSegment.from_file(audio_bytes_out, format="wav")
-                chunk_size = 1024
-                for i in range(0, len(audio_segment), chunk_size):
-                    if self._interrupt_playback:
-                        break
-
-                    # noinspection PyProtectedMember
-                    chunk = audio_segment[i : i + chunk_size]._data
-                    self._stream.write(chunk)
-
-        return _SpeakerTurtle(self._device, self._should_interrupt)
+            # noinspection PyProtectedMember
+            chunk = audio_segment[i : i + chunk_size]._data
+            self._stream.write(chunk)

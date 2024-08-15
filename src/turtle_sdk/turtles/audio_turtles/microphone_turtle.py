@@ -6,7 +6,6 @@ from mini_tortoise_audio import Audio, VbCableAudio, VbCableIn
 from pydub import AudioSegment
 
 from turtle_sdk.turtles.audio_turtles.speaker_turtle import _detect_silence
-from turtle_sdk.turtles.turtle_tool_maker import TurtleToolMaker
 
 
 class MicrophoneTurtle(ActionTurtle):
@@ -108,14 +107,3 @@ class MicrophoneTurtle(ActionTurtle):
         output_audio_io.seek(0)
 
         return output_audio_io
-
-
-class MicrophoneTurtleMaker(TurtleToolMaker):
-    __slots__ = ("_device", "_pitch_audio")
-
-    def __init__(self, device: VbCableIn | str, pitch_audio: int | bool = False):
-        self._device = device
-        self._pitch_audio = pitch_audio
-
-    def make(self, **kwargs) -> MicrophoneTurtle:
-        return MicrophoneTurtle(self._device, self._pitch_audio)

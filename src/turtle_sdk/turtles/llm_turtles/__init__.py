@@ -1,2 +1,2 @@
-from .llama_turtle import ChatLlamaTurtleMaker, ChatLlamaTurtle
-from .llm_turtle import LlmTurtle
+from .llama_turtle import ChatOllamaTurtle
+from .llm_turtle import ChatLlmTurtle

@@ -1,3 +1,3 @@
-from .microphone_turtle import MicrophoneTurtleMaker, MicrophoneTurtle
-from .speaker_turtle import SpeakerTurtleMaker, SpeakerTurtle
-from .tts import MiniTortoiseTtsTurtleMaker, MiniTortoiseTtsTurtle
+from .microphone_turtle import MicrophoneTurtle
+from .speaker_turtle import SpeakerTurtle
+from .tts import MiniTortoiseTtsTurtle

@@ -1,2 +1,2 @@
-from .server_turtle import ServerSocketTurtleMaker, ServerSocketTurtleTool
-from .client_turtle import ClientSocketTurtleMaker, ClientSocketTurtleTool
+from .server_turtle import ServerSocketTurtle
+from .client_turtle import ClientSocketTurtle

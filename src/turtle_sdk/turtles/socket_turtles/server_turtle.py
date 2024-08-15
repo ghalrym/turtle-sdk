@@ -1,51 +1,41 @@
 import logging
+from socket import socket
 
 from bale_of_turtles import use_state
-from socket import socket
-from turtle_sdk.turtles.socket_turtles._communicator import (
-    ServerSocketTurtleTool,
-    ClientHandler,
-)
-from turtle_sdk.turtles.turtle_tool_maker import TurtleToolMaker
+
+from turtle_sdk.turtles.socket_turtles._communicator import ServerSocketTurtleTool
+from turtle_sdk.turtles.turtle_tool_maker import make_fn_key
 
 logger = logging.getLogger(__name__)
 
 
-class ServerSocketTurtleMaker(TurtleToolMaker):
+class ServerSocketTurtle(ServerSocketTurtleTool):
 
-    def __init__(self, address: str, port: int, client_handler: ClientHandler):
-        super().__init__()
-        self._address = address
-        self._port = port
-        self._client_handler = client_handler
+    def __init__(self, address: str, port: int, receiver_key: str, sender_key: str):
+        super().__init__(address, port)
+        self.currently_responding = False
+        self.receiver_key = receiver_key
+        self.sender_key = sender_key
 
-    def make(
-        self, receiver_key: str, sender_key: str, **kwargs
-    ) -> ServerSocketTurtleTool:
-        class _ServerSocketTurtleTool(ServerSocketTurtleTool):
+        self.sender = use_state(make_fn_key("socket-sender"), [sender_key])(
+            self._sender
+        )
 
-            def __init__(self, address: str, port: int):
-                super().__init__(address, port)
-                self.currently_responding = False
+    def handle_connection(self, _socket: socket):
+        try:
+            while True:
+                self.currently_responding = True
+                self.update_state(
+                    **{self.receiver_key: self.recieve_data(self.client_connection)}
+                )
+                while self.currently_responding:
+                    ...
+        except ConnectionResetError:
+            logger.info("connection reset")
 
-            def handle_connection(self, _socket: socket):
-                try:
-                    while True:
-                        self.currently_responding = True
-                        self.update_state(
-                            **{receiver_key: self.recieve_data(self.client_connection)}
-                        )
-                        while self.currently_responding:
-                            ...
-                except ConnectionResetError:
-                    logger.info("connection reset")
-
-            @use_state(self._make_fn_key("socket-sender"), [sender_key])
-            def sender(self, **sender_kwargs):
-                send_chunk = sender_kwargs.get(sender_key)
-                if not isinstance(send_chunk, bytes):
-                    raise Exception("send_chunk must be bytes")
-                self.send_data(send_chunk, self.client_connection)
-                self.currently_responding = False
-
-        return _ServerSocketTurtleTool(self._address, self._port)
+    def _sender(self, **sender_kwargs):
+        send_chunk = sender_kwargs.get(self.sender_key)
+        if not isinstance(send_chunk, bytes):
+            raise Exception("send_chunk must be bytes")
+        self.send_data(send_chunk, self.client_connection)
+        self.currently_responding = False
