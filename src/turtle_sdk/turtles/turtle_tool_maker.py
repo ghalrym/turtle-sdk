@@ -11,3 +11,8 @@ class TurtleToolMaker:
 
     def make(self, **kwargs) -> TurtleTool:
         raise NotImplementedError()
+
+
+def make_fn_key(tag: str):
+    TurtleToolMaker._TURTLE_KEY += 1
+    return f"{tag}-{TurtleToolMaker._TURTLE_KEY}"
